@@ -1,3 +1,4 @@
+export PNAME = ALL
 
 all: build
 	@echo "Done"

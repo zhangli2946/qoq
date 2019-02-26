@@ -1,3 +1,6 @@
 
 all:
-	go build -buildmode=plugin -o=describe/  */*.go
+	ifeq($(PNAME), "ALL")
+	else
+		go build -buildmode=plugin -o=$(PNAME)/$(PNAME)  $(PNAME)/$(PNAME).go
+	endif

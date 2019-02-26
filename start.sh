@@ -1,0 +1,2 @@
+#!/bin/bash
+MQTTSRV=tcp://192.168.2.96:1883 MQTTUSR=zhang MQTTPWD=9900 MQTTCLID=9999 ./agent 

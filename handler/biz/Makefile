@@ -1,6 +1,2 @@
-
 all:
-	ifeq($(PNAME), "ALL")
-	else
-		go build -buildmode=plugin -o=$(PNAME)/$(PNAME)  $(PNAME)/$(PNAME).go
-	endif
+	go build -buildmode=plugin -o=$(PNAME)/$(PNAME).so  $(PNAME)/$(PNAME).go

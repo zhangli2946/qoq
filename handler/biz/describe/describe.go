@@ -1,7 +1,7 @@
 package main
 
 import (
-	"connector/actor/emq"
+	"qoq/actor/emq"
 	"encoding/json"
 )
 

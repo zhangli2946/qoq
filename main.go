@@ -1,8 +1,8 @@
 package main
 
 import (
-	"connector/actor/emq"
-	"connector/handler/biz/download"
+	"qoq/actor/emq"
+	"qoq/handler/biz/download"
 	"context"
 	"fmt"
 	"log"

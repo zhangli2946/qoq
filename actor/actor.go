@@ -1,7 +1,7 @@
 package actor
 
 import (
-	"connector/protocol"
+	"qoq/protocol"
 	"encoding/json"
 )
 

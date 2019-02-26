@@ -1,7 +1,7 @@
 package load
 
 import (
-	"connector/actor/emq"
+	"qoq/actor/emq"
 	"encoding/json"
 	"errors"
 	"path"

@@ -1,8 +1,8 @@
 package emq
 
 import (
-	"connector/actor"
-	"connector/protocol"
+	"qoq/actor"
+	"qoq/protocol"
 	"context"
 	"encoding/json"
 	"errors"

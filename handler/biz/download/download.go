@@ -1,7 +1,7 @@
 package download
 
 import (
-	"connector/actor/emq"
+	"qoq/actor/emq"
 	"context"
 	"encoding/json"
 	"os"

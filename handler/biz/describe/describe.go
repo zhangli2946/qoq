@@ -1,8 +1,8 @@
 package main
 
 import (
-	"qoq/actor/emq"
 	"encoding/json"
+	"qoq/actor/emq"
 )
 
 type describe struct {
@@ -37,8 +37,8 @@ func Describe(i *emq.Emq, cmd json.RawMessage) error {
 	return nil
 }
 
-func gen() (string, func(*emq.Emq, json.RawMessage) error) {
-	return "Describe", Describe
+func Gen() (string, func(*emq.Emq, json.RawMessage) error) {
+	return "describe", Describe
 }
 
 func main() {

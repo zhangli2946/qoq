@@ -1,11 +1,11 @@
 package load
 
 import (
-	"qoq/actor/emq"
 	"encoding/json"
 	"errors"
 	"path"
 	"plugin"
+	"qoq/actor/emq"
 )
 
 type load struct {
@@ -36,7 +36,7 @@ func Load(i *emq.Emq, c json.RawMessage) (e error) {
 	if e != nil {
 		return
 	}
-	s, e = p.Lookup("gen")
+	s, e = p.Lookup("Gen")
 	if e != nil {
 		return
 	}

@@ -1,12 +1,12 @@
 package emq
 
 import (
-	"qoq/actor"
-	"qoq/protocol"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"qoq/actor"
+	"qoq/protocol"
 	"time"
 
 	client "github.com/eclipse/paho.mqtt.golang"
@@ -16,6 +16,7 @@ import (
 // handler
 type Handler func(*Emq, json.RawMessage) error
 
+// FSM interface
 type FSM interface {
 	Init(opts []Option)
 	Run()
@@ -113,7 +114,11 @@ func (i *Emq) Run() {
 						continue
 					}
 				}
-				t, p = actor.GenError(c, 1, e)
+				if e != nil {
+					t, p = actor.GenError(c, 1, e)
+				} else {
+					t, p = actor.GenError(c, 1, nil)
+				}
 				i.Cli.Publish(t, 1, false, p)
 			case <-ctx.Done():
 				t, p = actor.GenError(c, 0, ctx.Err())

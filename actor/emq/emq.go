@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
+	"os"
 	"qoq/actor"
 	"qoq/protocol"
 	"time"
@@ -28,6 +30,13 @@ var (
 	DefaultHandler     = map[string]Handler{}
 	_              FSM = &Emq{}
 )
+
+func init() {
+	client.DEBUG = log.New(os.Stderr, "DEBUG    ", log.Ltime)
+	client.WARN = log.New(os.Stderr, "WARNING  ", log.Ltime)
+	client.CRITICAL = log.New(os.Stderr, "CRITICAL ", log.Ltime)
+	client.ERROR = log.New(os.Stderr, "ERROR    ", log.Ltime)
+}
 
 // Emq type
 type Emq struct {

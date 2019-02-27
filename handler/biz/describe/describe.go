@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"qoq/actor/emq"
+
+	client "github.com/eclipse/paho.mqtt.golang"
 )
 
 type describe struct {
@@ -14,6 +16,9 @@ type describe struct {
 
 // Describe handler
 func Describe(i *emq.Emq, cmd json.RawMessage) error {
+	var e error
+	var b []byte
+	var t client.Token
 	splugins := []string{}
 	for k := range i.SysProtocol {
 		splugins = append(splugins, k)
@@ -28,12 +33,18 @@ func Describe(i *emq.Emq, cmd json.RawMessage) error {
 		dplugins = append(dplugins, k)
 	}
 
-	i.Cli.Publish("describe", 2, false, describe{
+	b, e = json.Marshal(describe{
 		Version: i.Version,
 		SysHdlr: splugins,
 		BizHdlr: bplugins,
 		DefHdlr: dplugins,
 	})
+	if e != nil {
+		return e
+	}
+	if t = i.Cli.Publish("describe", 2, false, b); t.Wait() && t.Error() != nil {
+		return t.Error()
+	}
 	return nil
 }
 

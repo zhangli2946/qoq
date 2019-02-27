@@ -1,12 +1,21 @@
 package actor
 
 import (
-	"qoq/protocol"
 	"encoding/json"
+	"errors"
+	"qoq/protocol"
+)
+
+var (
+	// ErrNotSupport def
+	ErrNotSupport = errors.New("cmd not support")
 )
 
 // GenError message
 func GenError(cmd protocol.Command, step int, err error) (string, []byte) {
+	if err == nil {
+		err = ErrNotSupport
+	}
 	b, _ := json.Marshal(map[string]interface{}{
 		"code": 128,
 		"stat": "error",

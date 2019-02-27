@@ -1,13 +1,14 @@
 package main
 
 import (
-	"qoq/actor/emq"
-	"qoq/handler/biz/download"
 	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
+	"qoq/actor/emq"
+	"qoq/handler/biz/download"
+	_ "qoq/handler/biz/load"
 	"sync"
 	"time"
 

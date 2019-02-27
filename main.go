@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,46 +8,16 @@ import (
 	"qoq/actor/emq"
 	"qoq/handler/biz/download"
 	_ "qoq/handler/biz/load"
-	"sync"
 	"time"
 
 	client "github.com/eclipse/paho.mqtt.golang"
-	getter "github.com/hashicorp/go-getter"
 )
 
-func main2() {
-	pwd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting wd: %s", err)
-	}
-	ctx, cancel := context.WithCancel(context.Background())
-	client := &getter.Client{
-		Ctx:     ctx,
-		Src:     "http://ftps.lowaniot.com/tools/qrsbox_2016_11_24.zip",
-		Dst:     "qrsbox",
-		Pwd:     pwd,
-		Mode:    getter.ClientModeAny,
-		Options: []getter.ClientOption{},
-	}
-
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	errChan := make(chan error, 2)
-	go func() {
-		defer wg.Done()
-		defer cancel()
-		if err := client.Get(); err != nil {
-			errChan <- err
-		}
-	}()
-	select {
-	case <-ctx.Done():
-		wg.Wait()
-		log.Printf("success!")
-	case err := <-errChan:
-		wg.Wait()
-		log.Fatalf("Error downloading: %s", err)
-	}
+func init() {
+	client.DEBUG = log.New(os.Stderr, "DEBUG    ", log.Ltime)
+	client.WARN = log.New(os.Stderr, "WARNING  ", log.Ltime)
+	client.CRITICAL = log.New(os.Stderr, "CRITICAL ", log.Ltime)
+	client.ERROR = log.New(os.Stderr, "ERROR    ", log.Ltime)
 }
 
 func main() {

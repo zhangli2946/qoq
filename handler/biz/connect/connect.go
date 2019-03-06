@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"qoq/actor/emq"
 	"time"
 
@@ -30,7 +31,15 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 			for step := d.C / d.B; step > 0; step-- {
 				go func(ctx context.Context, c int, s int) {
 					var tk client.Token
-					cli := client.NewClient(client.NewClientOptions().SetClientID(fmt.Sprintf("%d@%d", c, s)))
+					cli := client.NewClient(client.NewClientOptions().
+						SetClientID(fmt.Sprintf("%d@%d", c, s)).
+						SetAutoReconnect(false).
+						SetConnectionLostHandler(func(cli client.Client, err error) {
+							fmt.Println(err.Error(), "@", c, "@", s)
+						}).
+						AddBroker(os.Getenv("MQTTSRV")).
+						SetUsername(os.Getenv("MQTTUSR")).
+						SetPassword(os.Getenv("MQTTPWD")))
 
 					if cli.Connect(); tk.Wait() && tk.Error() != nil {
 						fmt.Println(tk.Error(), "@", c, "@", s)

@@ -41,7 +41,7 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 						SetUsername(os.Getenv("MQTTUSR")).
 						SetPassword(os.Getenv("MQTTPWD")))
 
-					if cli.Connect(); tk.Wait() && tk.Error() != nil {
+					if tk = cli.Connect(); tk.Wait() && tk.Error() != nil {
 						fmt.Println(tk.Error(), "@", c, "@", s)
 					}
 					time.Sleep(100 * time.Second)

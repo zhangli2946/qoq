@@ -3,7 +3,7 @@ export PNAME = ALL
 all: build
 	@echo "Done"
 build: clean 
-	@go build -o agent
+	@go build -o /tmp/agent
 clean: 
 	@go clean
 plugin: 

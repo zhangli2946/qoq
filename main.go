@@ -27,8 +27,7 @@ func main() {
 		emq.MQTTSettings(
 			os.Getenv("MQTTSRV"),
 			os.Getenv("MQTTUSR"),
-			os.Getenv("MQTTPWD"),
-			os.Getenv("MQTTCLID")),
+			os.Getenv("MQTTPWD")),
 		emq.AddSysHandler("bus/#", func(cli client.Client, evt client.Message) {
 			i.Evt <- evt
 		}),

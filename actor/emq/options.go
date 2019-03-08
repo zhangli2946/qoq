@@ -1,7 +1,6 @@
 package emq
 
 import (
-	"fmt"
 	"time"
 
 	client "github.com/eclipse/paho.mqtt.golang"
@@ -35,7 +34,6 @@ func MQTTSettings(Broker string, Username string, Password string, ID string) Op
 			SetUsername(Username).
 			SetPassword(Password).
 			SetMaxReconnectInterval(10 * time.Second).
-			SetClientID(fmt.Sprintf("%s_sub", ID)).
 			SetCleanSession(false)
 		return nil
 	}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"os"
 	"qoq/actor"
 	"qoq/actor/emq"
@@ -33,7 +34,7 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 					var tk client.Token
 					msg := make(chan client.Message)
 					cli := client.NewClient(client.NewClientOptions().
-						SetClientID(fmt.Sprintf("%d@%d", c, s)).
+						SetClientID(fmt.Sprintf("%d@%d@%d", c, s, rand.Int63n(1<<62))).
 						SetAutoReconnect(false).
 						SetConnectionLostHandler(func(cli client.Client, err error) {
 							t, p := actor.GenError(protocol.Command{
@@ -55,6 +56,7 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 
 					if tk = cli.Connect(); tk.Wait() && tk.Error() != nil {
 						fmt.Println(tk.Error(), "@", c, "@", s)
+						return
 					}
 					for {
 						select {
@@ -62,7 +64,6 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 							cli.Disconnect(100)
 						}
 					}
-
 				}(i.Ctx, cnt, step)
 			}
 		}

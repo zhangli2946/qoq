@@ -27,7 +27,7 @@ func AddBizHandler(topic string, handler Handler) Option {
 }
 
 // MQTTSettings option
-func MQTTSettings(Broker string, Username string, Password string, ID string) Option {
+func MQTTSettings(Broker string, Username string, Password string) Option {
 	return func(i *Emq) error {
 		i.Opts = client.NewClientOptions().
 			AddBroker(Broker).

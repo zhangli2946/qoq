@@ -60,8 +60,12 @@ func Connect(i *emq.Emq, cmd json.RawMessage) (err error) {
 					}
 					for {
 						select {
+						case <-msg:
+							cli.Disconnect(100)
+							return
 						case <-i.Ctx.Done():
 							cli.Disconnect(100)
+							return
 						}
 					}
 				}(i.Ctx, cnt, step)
